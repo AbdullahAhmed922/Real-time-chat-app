@@ -18,7 +18,7 @@ import { RoomsModule } from './rooms/rooms.module';
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGODB_URI') || 'mongodb://localhost:27017/chatapp',
+        uri: config.get<string>('MONGODB_URI'),
       }),
     }),
     AuthModule,
