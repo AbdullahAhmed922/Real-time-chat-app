@@ -1,10 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
-import Chat from "./pages/Chat";
+import ChatLayout from "./components/ChatLayout";
+import ChatWindow from "./components/ChatWindow";
+import EmptyState from "./components/EmptyState";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Room from "./pages/Room";
 import { Toaster } from "sonner";
 
 function App() {
@@ -28,22 +29,24 @@ function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          {/* Main chat layout with nested routes */}
           <Route
-            path="/rooms"
+            path="/chat"
             element={
               <PrivateRoute>
-                <Room />
+                <ChatLayout />
               </PrivateRoute>
             }
-          />
-          <Route
-            path="/chat/:roomName"
-            element={
-              <PrivateRoute>
-                <Chat />
-              </PrivateRoute>
-            }
-          />
+          >
+            <Route index element={<EmptyState />} />
+            <Route path="room/:roomName" element={<ChatWindow />} />
+            <Route path="dm/:username" element={<ChatWindow />} />
+          </Route>
+
+          {/* Backward compat redirect */}
+          <Route path="/rooms" element={<Navigate to="/chat" replace />} />
+          <Route path="/chat/:roomName" element={<Navigate to="/chat" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </AuthProvider>

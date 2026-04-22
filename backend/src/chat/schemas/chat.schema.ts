@@ -8,13 +8,28 @@ export type ChatDocument = Chat & Document;
 export class Chat {
 
     @Prop({ required: true })
-    username:string;
+    username: string;
 
     @Prop({ required: true })
-    room:string;
+    room: string;
     
     @Prop({ required: true })
-    content:string;
+    content: string;
+
+    @Prop({ default: 'group', enum: ['group', 'private'] })
+    chatType: string;
+
+    @Prop({ default: null })
+    recipientUsername: string;
+
+    @Prop({ default: false })
+    isEdited: boolean;
+
+    @Prop({ default: false })
+    isDeleted: boolean;
+
+    @Prop({ type: [String], default: [] })
+    deletedFor: string[];
 
     createdAt: Date;
     updatedAt: Date;

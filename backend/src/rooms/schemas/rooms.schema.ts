@@ -4,13 +4,19 @@ import { Document } from 'mongoose';
 
 export type RoomDocument = Room & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Room {
     @Prop({ required: true, unique: true })
     name: string;
  
     @Prop({ default: '' })
     description: string;
+
+    @Prop({ default: '' })
+    createdBy: string;
+
+    @Prop({ type: [String], default: [] })
+    members: string[];
 }
 
 export const RoomSchema = SchemaFactory.createForClass(Room);

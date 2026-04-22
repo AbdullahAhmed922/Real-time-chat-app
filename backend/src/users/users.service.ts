@@ -7,14 +7,34 @@ import { Model } from 'mongoose';
 @Injectable()
 export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
     async create(username: string, email: string, password: string): Promise<UserDocument> {
         return this.userModel.create({ username, email, password });
     }
+
     async findByEmail(email: string): Promise<UserDocument | null> {
         return this.userModel.findOne({ email }).exec();
     }
 
     async findById(id: string): Promise<UserDocument | null> {
         return this.userModel.findById(id).exec();
+    }
+
+    async findAll(): Promise<UserDocument[]> {
+        return this.userModel.find({}, { password: 0 }).exec();
+    }
+
+    async findByUsername(username: string): Promise<UserDocument | null> {
+        return this.userModel.findOne({ username }, { password: 0 }).exec();
+    }
+
+    async searchUsers(query: string): Promise<UserDocument[]> {
+        return this.userModel
+            .find(
+                { username: { $regex: query, $options: 'i' } },
+                { password: 0 },
+            )
+            .limit(20)
+            .exec();
     }
 }
