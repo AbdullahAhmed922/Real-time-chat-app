@@ -156,7 +156,6 @@ export default function ChatWindow() {
     inputRef.current?.focus();
   };
 
-  const displayName = mode === "dm" ? recipient : room;
   const isRecipientOnline =
     mode === "dm" && recipient && onlineUsers.includes(recipient);
   const isCreator = mode === "group" && roomCreator === username;

@@ -29,7 +29,6 @@ type DiscoverRoomsDialogProps = {
 export default function DiscoverRoomsDialog({
   open,
   onOpenChange,
-  currentUser,
   myRoomNames,
   onRoomJoined,
 }: DiscoverRoomsDialogProps) {
